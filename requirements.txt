@@ -1,0 +1,4 @@
+google_adk
+llama-index
+Flask
+google-generativeai
