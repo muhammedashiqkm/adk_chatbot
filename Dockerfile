@@ -13,4 +13,4 @@ USER myuser
 
 ENV PATH="/home/myuser/.local/bin:$PATH"
 
-CMD ["python", "main.py"]
+CMD ["python", "app.py"]
