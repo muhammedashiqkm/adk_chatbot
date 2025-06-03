@@ -276,8 +276,8 @@ gcloud run deploy college-agent \
 3. Configuration options:
 ```bash
 gcloud run services update college-agent \
-  --memory 2Gi \
-  --cpu 2 \
+  --memory 1Gi \
+  --cpu 1 \
   --timeout 300 \
   --concurrency 80
 ```
@@ -352,3 +352,100 @@ Common issues and solutions:
    - Adjust Cloud Run timeout settings
    - Optimize query processing
    - Consider async processing for long operations
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## 🐧 Deployment to Linux Server
+
+You can deploy this app to any Linux server (e.g., Ubuntu) using either **Docker** or **a virtual Python environment**.
+
+---
+
+### 🚀 Option 1: Docker-Based Deployment (Recommended)
+
+#### ✅ Prerequisites
+
+- Linux server (e.g., Ubuntu 20.04+)
+- Docker installed:
+  ```bash
+  sudo apt update
+  sudo apt install docker.io -y
+  sudo systemctl start docker
+  sudo systemctl enable docker
+  ```
+
+---
+
+#### 📦 Build the Docker Image
+
+```bash
+docker build -t college-agent .
+```
+
+---
+
+#### ▶️ Run the Docker Container
+
+```bash
+docker run -d -p 5000:5000 \
+  --env-file .env \
+  --name college_agent_container \
+  college-agent
+```
+
+Access the app at: `http://<your-server-ip>:5000`
+
+---
+
+### 🛠 Option 2: Manual Deployment (No Docker)
+
+#### ✅ Prerequisites
+
+- Python 3.9+ installed on the server
+- `pip`, `virtualenv`, and GCP CLI installed
+
+#### 📦 Set up the project:
+
+```bash
+sudo apt update
+sudo apt install python3-pip python3-venv -y
+
+# Clone or transfer project files
+cd /path/to/project
+
+# Create and activate virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Export environment variables (if not using .env auto-load)
+export $(cat .env | xargs)
+```
+
+---
+
+#### ▶️ Run the Flask App
+
+```bash
+python app.py
+```
+
+Or use **Gunicorn** for production:
+
+```bash
+pip install gunicorn
+gunicorn app:app --bind 0.0.0.0:5000
+```
+
+---
+
+#### 🔄 Keep the App Running
+
+Use `nohup` or a process manager like `pm2`, `supervisord`, or `systemd`.
+
+Example using `nohup`:
+
+```bash
+nohup gunicorn app:app --bind 0.0.0.0:5000 &
+```
