@@ -1,3 +1,4 @@
+
 # 🧠 Vertex AI RAG Setup for ADK Chatbot
 
 This guide walks you through the step-by-step process of setting up a Retrieval-Augmented Generation (RAG) pipeline using Google Cloud's Vertex AI, and configuring your environment for a chatbot powered by Google’s Agent Development Kit (ADK).
@@ -66,23 +67,18 @@ Update your `.env` file in the root of your project:
 
 ```env
 GOOGLE_GENAI_USE_VERTEXAI=1
-
 GOOGLE_CLOUD_PROJECT=your-gcp-project-id
 GOOGLE_CLOUD_LOCATION=us-central1
 RAG_CORPUS=projects/your-gcp-project-id/locations/us-central1/ragCorpora/your-corpus-id
+```
 
+---
 
-
-
-
-
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-# College Agent - Sullamussalam Science College Assistant
+# 🎓 College Agent - Sullamussalam Science College Assistant
 
 A Flask-based REST API service that provides an AI assistant for Sullamussalam Science College using Google's Vertex AI and RAG (Retrieval Augmented Generation).
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 ├── app.py                 # Main Flask application
@@ -94,14 +90,14 @@ A Flask-based REST API service that provides an AI assistant for Sullamussalam S
     └── prompts.py       # Agent instruction prompts
 ```
 
-## Features
+## ✨ Features
 
 - AI-powered chat assistant for college-related queries
 - Session-based conversations
 - RAG-based information retrieval
 - RESTful API endpoints
 
-## Prerequisites
+## ✅ Prerequisites
 
 - Python 3.13+
 - Google Cloud account
@@ -109,7 +105,7 @@ A Flask-based REST API service that provides an AI assistant for Sullamussalam S
 - RAG corpus set up in Vertex AI
 - Google Cloud CLI installed
 
-## Environment Variables
+## 🛠 Environment Variables
 
 Create a `.env` file with the following configurations:
 
@@ -120,7 +116,7 @@ GOOGLE_CLOUD_LOCATION=us-central1
 RAG_CORPUS=projects/{project-id}/locations/{location}/ragCorpora/{corpus-id}
 ```
 
-## Local Development
+## 🧪 Local Development
 
 1. Install dependencies:
 ```bash
@@ -132,9 +128,9 @@ pip install -r requirements.txt
 python app.py
 ```
 
-## API Endpoints
+## 🌐 API Endpoints
 
-### Start Session
+### ▶️ Start Session
 ```bash
 POST /start_session
 {
@@ -143,7 +139,7 @@ POST /start_session
 }
 ```
 
-### Ask Question
+### ❓ Ask Question
 ```bash
 POST /ask
 {
@@ -153,7 +149,7 @@ POST /ask
 }
 ```
 
-### End Session
+### ⏹ End Session
 ```bash
 POST /end_session
 {
@@ -162,7 +158,7 @@ POST /end_session
 }
 ```
 
-## Deployment to Google Cloud Run
+## ☁️ Deployment to Google Cloud Run
 
 1. Authenticate with Google Cloud:
 ```bash
@@ -172,24 +168,15 @@ gcloud config set project your-project-id
 
 2. Build and deploy using Cloud Run:
 ```bash
-gcloud run deploy college-agent \
-  --source . \
-  --region us-central1 \
-  --platform managed \
-  --allow-unauthenticated \
-  --env-vars-file .env
+gcloud run deploy college-agent   --source .   --region us-central1   --platform managed   --allow-unauthenticated   --env-vars-file .env
 ```
 
 3. Configuration options:
 ```bash
-gcloud run services update college-agent \
-  --memory 1Gi \
-  --cpu 1 \
-  --timeout 300 \
-  --concurrency 80
+gcloud run services update college-agent   --memory 1Gi   --cpu 1   --timeout 300   --concurrency 80
 ```
 
-## Docker Build
+## 🐳 Docker Build
 
 Build the image locally:
 ```bash
@@ -198,42 +185,27 @@ docker build -t college-agent .
 
 Run locally:
 ```bash
-docker run -p 5000:5000 \
-  --env-file .env \
-  college-agent
+docker run -p 5000:5000   --env-file .env   college-agent
 ```
 
-## Testing
-
-Test the deployed service:
+## 🧪 Testing
 
 ```bash
-# Get service URL
 export SERVICE_URL=$(gcloud run services describe college-agent --format 'value(status.url)')
 
-# Start a session
-curl -X POST "${SERVICE_URL}/start_session" \
-  -H "Content-Type: application/json" \
-  -d '{"username":"test","session_name":"session1"}'
+curl -X POST "${SERVICE_URL}/start_session"   -H "Content-Type: application/json"   -d '{"username":"test","session_name":"session1"}'
 
-# Ask a question
-curl -X POST "${SERVICE_URL}/ask" \
-  -H "Content-Type: application/json" \
-  -d '{"username":"test","session_name":"session1","question":"Tell me about admissions"}'
+curl -X POST "${SERVICE_URL}/ask"   -H "Content-Type: application/json"   -d '{"username":"test","session_name":"session1","question":"Tell me about admissions"}'
 ```
 
-## Monitoring
+## 📊 Monitoring
 
-Monitor your deployment:
 ```bash
-# View logs
 gcloud logging read "resource.type=cloud_run_revision AND resource.labels.service_name=college-agent" --limit 50
-
-# Check service status
 gcloud run services describe college-agent
 ```
 
-## Security Considerations
+## 🔐 Security Considerations
 
 - Use service accounts with minimal permissions
 - Enable Cloud Run authentication when needed
@@ -241,31 +213,26 @@ gcloud run services describe college-agent
 - Implement rate limiting
 - Monitor API usage
 
-## Troubleshooting
+## 🛠 Troubleshooting
 
-Common issues and solutions:
-
-1. Connection errors:
+1. **Connection errors**
    - Check environment variables
    - Verify Vertex AI API is enabled
    - Confirm RAG corpus exists
 
-2. Memory issues:
+2. **Memory issues**
    - Increase Cloud Run instance memory
    - Optimize batch sizes
    - Monitor memory usage
 
-3. Timeouts:
+3. **Timeouts**
    - Adjust Cloud Run timeout settings
    - Optimize query processing
    - Consider async processing for long operations
 
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-## 🐧 Deployment to Linux Server
-
-You can deploy this app to any Linux server (e.g., Ubuntu) using either **Docker** or **a virtual Python environment**.
-
 ---
+
+## 🐧 Deployment to Linux Server
 
 ### 🚀 Option 1: Docker-Based Deployment (Recommended)
 
@@ -273,14 +240,12 @@ You can deploy this app to any Linux server (e.g., Ubuntu) using either **Docker
 
 - Linux server (e.g., Ubuntu 20.04+)
 - Docker installed:
-  ```bash
-  sudo apt update
-  sudo apt install docker.io -y
-  sudo systemctl start docker
-  sudo systemctl enable docker
-  ```
-
----
+```bash
+sudo apt update
+sudo apt install docker.io -y
+sudo systemctl start docker
+sudo systemctl enable docker
+```
 
 #### 📦 Build the Docker Image
 
@@ -288,15 +253,10 @@ You can deploy this app to any Linux server (e.g., Ubuntu) using either **Docker
 docker build -t college-agent .
 ```
 
----
-
 #### ▶️ Run the Docker Container
 
 ```bash
-docker run -d -p 5000:5000 \
-  --env-file .env \
-  --name college_agent_container \
-  college-agent
+docker run -d -p 5000:5000   --env-file .env   --name college_agent_container   college-agent
 ```
 
 Access the app at: `http://<your-server-ip>:5000`
@@ -315,22 +275,12 @@ Access the app at: `http://<your-server-ip>:5000`
 ```bash
 sudo apt update
 sudo apt install python3-pip python3-venv -y
-
-# Clone or transfer project files
 cd /path/to/project
-
-# Create and activate virtual environment
 python3 -m venv venv
 source venv/bin/activate
-
-# Install dependencies
 pip install -r requirements.txt
-
-# Export environment variables (if not using .env auto-load)
 export $(cat .env | xargs)
 ```
-
----
 
 #### ▶️ Run the Flask App
 
@@ -338,20 +288,14 @@ export $(cat .env | xargs)
 python app.py
 ```
 
-Or use **Gunicorn** for production:
+Or use Gunicorn:
 
 ```bash
 pip install gunicorn
 gunicorn app:app --bind 0.0.0.0:5000
 ```
 
----
-
 #### 🔄 Keep the App Running
-
-Use `nohup` or a process manager like `pm2`, `supervisord`, or `systemd`.
-
-Example using `nohup`:
 
 ```bash
 nohup gunicorn app:app --bind 0.0.0.0:5000 &
