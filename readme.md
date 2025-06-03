@@ -1,8 +1,5 @@
-Okay, here's the content formatted entirely in Markdown, suitable for a GitHub README:
 
-Markdown
-
-## 🤖 College Course Recommendation Agent with Google ADK & Vertex RAG
+# 🤖 College Course Recommendation Agent with Google ADK & Vertex RAG
 
 This project leverages Google's Agent Development Kit (ADK) with the Vertex AI RAG Engine to recommend college courses based on a student's interest survey.
 
@@ -10,74 +7,113 @@ This project leverages Google's Agent Development Kit (ADK) with the Vertex AI R
 
 ### ✅ Prerequisites
 
-* A **Google Cloud Platform (GCP)** account.
-* **Billing enabled** for your project.
-* **Google Cloud CLI** installed: [https://cloud.google.com/sdk/docs/install](https://cloud.google.com/sdk/docs/install)
-* **Python 3.9+** and `virtualenv` or `venv`.
+- A **Google Cloud Platform (GCP)** account.
+- **Billing enabled** for your project.
+- **Google Cloud CLI** installed: [https://cloud.google.com/sdk/docs/install](https://cloud.google.com/sdk/docs/install)
+- **Python 3.9+** and `virtualenv` or `venv`.
 
 ---
 
 ### 🛠️ Step 1: Create a Google Cloud Project
 
-First, create your GCP project.
+First, create your GCP project:
 
 ```bash
 gcloud projects create collegeagent-458307 --name="College Agent Project"
+```
+
 Then, set it as your active project for all subsequent commands:
 
-Bash
-
+```bash
 gcloud config set project collegeagent-458307
-💳 Step 2: Enable and Link Billing
+```
+
+---
+
+### 💳 Step 2: Enable and Link Billing
+
 You need to link a billing account to your project to use Google Cloud services.
 
-Go to Billing: Navigate to the Google Cloud Billing page.
-Create a Billing Account: If you don't have one, select "Create billing account" and follow the prompts.
-Link Billing Account to Project:
+**Go to Billing:**
+Navigate to the [Google Cloud Billing page](https://console.cloud.google.com/billing).
 
-If your project collegeagent-458307 isn't linked, select "Link a billing account" and choose your new or existing billing account.
-If it's already linked, go to "Manage billing accounts," select your billing account, and check the project details. You can click the three dots next to your project to change the billing account if needed.
+**Create a Billing Account:**
+If you don't have one, select "Create billing account" and follow the prompts.
+
+**Link Billing Account to Project:**
+
+- If your project `collegeagent-458307` isn't linked, select "Link a billing account" and choose your new or existing billing account.
+- If it's already linked, go to "Manage billing accounts," select your billing account, and check the project details. You can click the three dots next to your project to change the billing account if needed.
+
 Alternatively, you can link it via the CLI:
 
-Bash
-
+```bash
 gcloud beta billing projects link collegeagent-458307 --billing-account=YOUR_BILLING_ACCOUNT_ID
+```
+
 To find your billing account ID:
 
-Bash
-
+```bash
 gcloud beta billing accounts list
-📦 Step 3: Enable Required APIs
+```
+
+---
+
+### 📦 Step 3: Enable Required APIs
+
 Enable the necessary Google Cloud APIs for AI Platform, Discovery Engine, Storage, and Cloud Build:
 
-Bash
-
+```bash
 gcloud services enable aiplatform.googleapis.com \
                          discoveryengine.googleapis.com \
                          storage.googleapis.com \
                          cloudbuild.googleapis.com
-🧠 Step 4: Create RAG Corpus in Vertex AI RAG Engine
+```
+
+---
+
+### 🧠 Step 4: Create RAG Corpus in Vertex AI RAG Engine
+
 This step involves setting up the knowledge base for your chatbot.
 
-Enable Vertex AI API: Ensure the aiplatform.googleapis.com API is enabled (which you did in Step 3).
-Navigate to Vertex AI RAG Engine: In the Google Cloud Console, search for "Vertex AI" and then find "RAG Engine" in the left navigation.
-Create Corpus:
-Choose the default region us-central1.
-Click "Create Corpus."
-Give your corpus a clear name and an optional description.
-Upload Documents:
-Upload your course documents (e.g., syllabi, course descriptions) in supported formats like .txt or .pdf. You can upload multiple documents.
-Configure Corpus Settings:
-Press "Continue."
-Choose text-embedding-004 as the embedding model.
-Select RAG managed vector store.
-Press "Create Corpus."
-Copy Resource Name: Once the corpus is created, go to its "Details" page. Copy the full "Resource name." It will look something like: projects/YOUR_PROJECT_NUMBER/locations/us-central1/ragCorpora/YOUR_CORPUS_ID.
-🔑 Step 5: Set Up Environment Variables
-Create a file named .env in your project's root directory and add the following lines. Make sure to replace the placeholder values with your actual project ID and the RAG Corpus resource name you copied.
+**Enable Vertex AI API:**
+Ensure the `aiplatform.googleapis.com` API is enabled (which you did in Step 3).
 
-Code snippet
+**Navigate to Vertex AI RAG Engine:**
+In the Google Cloud Console, search for "Vertex AI" and then find "RAG Engine" in the left navigation.
 
+**Create Corpus:**
+
+- Choose the default region `us-central1`.
+- Click "Create Corpus."
+- Give your corpus a clear name and an optional description.
+
+**Upload Documents:**
+
+Upload your course documents (e.g., syllabi, course descriptions) in supported formats like `.txt` or `.pdf`. You can upload multiple documents.
+
+**Configure Corpus Settings:**
+
+- Press "Continue."
+- Choose `text-embedding-004` as the embedding model.
+- Select `RAG managed vector store`.
+- Press "Create Corpus."
+
+**Copy Resource Name:**
+
+Once the corpus is created, go to its "Details" page. Copy the full "Resource name." It will look something like:
+
+```
+projects/YOUR_PROJECT_NUMBER/locations/us-central1/ragCorpora/YOUR_CORPUS_ID
+```
+
+---
+
+### 🔑 Step 5: Set Up Environment Variables
+
+Create a file named `.env` in your project's root directory and add the following lines. Make sure to replace the placeholder values with your actual project ID and the RAG Corpus resource name you copied.
+
+```env
 # Use Vertex AI as the backend
 GOOGLE_GENAI_USE_VERTEXAI=1
 
@@ -87,34 +123,49 @@ GOOGLE_CLOUD_LOCATION=us-central1
 
 # Your created corpus path (paste the copied Resource name here)
 RAG_CORPUS=projects/YOUR_PROJECT_NUMBER/locations/us-central1/ragCorpora/YOUR_CORPUS_ID
-🧪 Step 6: Run Your Agent
+```
+
+---
+
+### 🧪 Step 6: Run Your Agent
+
 Finally, install dependencies and run your agent locally to test it.
 
-Install dependencies:
+**Install dependencies:**
 
-Bash
-
+```bash
 pip install -r requirements.txt
-Activate environment variables:
+```
 
-Bash
+**Activate environment variables:**
 
+```bash
 source .env
-Authenticate GCP CLI: Navigate to the parent directory adk_chatbot (or wherever your main.py is located) and run:
+```
 
-Bash
+**Authenticate GCP CLI:**
+Navigate to the parent directory `adk_chatbot` (or wherever your `main.py` is located) and run:
 
+```bash
 gcloud auth application-default login
-Set Quota Project:
+```
 
-Bash
+**Set Quota Project:**
 
+```bash
 gcloud auth application-default set-quota-project collegeagent-458307
-Test the API locally:
+```
 
-Bash
+**Test the API locally:**
 
+```bash
 python main.py
+```
+
+---
+
+
+
 
 
 
